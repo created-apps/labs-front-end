@@ -11,6 +11,7 @@ export function BrochureModal({ url, filename, onClose }: { url: string; filenam
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
+  const [school, setSchool] = useState("");
   const [status, setStatus] = useState<"idle" | "submitting" | "error" | "done">("idle");
   const [error, setError] = useState("");
 
@@ -38,7 +39,7 @@ export function BrochureModal({ url, filename, onClose }: { url: string; filenam
       const res = await fetch("/api/brochure-request", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, phone }),
+        body: JSON.stringify({ name, email, phone, school }),
       });
       const data = await res.json();
       if (!res.ok) {
@@ -92,7 +93,19 @@ export function BrochureModal({ url, filename, onClose }: { url: string; filenam
               </div>
               <div className="field">
                 <label htmlFor="bm-phone">Phone</label>
-                <input id="bm-phone" type="tel" placeholder="+91XXXXXXXXXX" value={phone} onChange={(e) => setPhone(e.target.value)} autoComplete="tel" />
+                <input id="bm-phone" type="tel" placeholder="+91XXXXXXXXXX" required value={phone} onChange={(e) => setPhone(e.target.value)} autoComplete="tel" />
+              </div>
+              <div className="field">
+                <label htmlFor="bm-school">School</label>
+                <input
+                  id="bm-school"
+                  type="text"
+                  required
+                  placeholder="Delhi Public School"
+                  value={school}
+                  onChange={(e) => setSchool(e.target.value)}
+                  autoComplete="organization"
+                />
               </div>
               {status === "error" && <p className="form-error">{error}</p>}
               <div className="modal-actions">

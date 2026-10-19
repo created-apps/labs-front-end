@@ -6,8 +6,12 @@ create table if not exists public.brochure_leads (
   name       text        not null,
   email      text        not null,
   phone      text,
+  school     text,
   created_at timestamptz not null default now()
 );
+
+-- For tables created before the school field existed.
+alter table public.brochure_leads add column if not exists school text;
 
 -- Enforce "insert only, this table only" at the database, so it holds even if
 -- application code changes. Requires the app to use SUPABASE_ANON_KEY.

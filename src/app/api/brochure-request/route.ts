@@ -13,7 +13,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Invalid request body." }, { status: 400 });
   }
 
-  const { name, email, phone } = (body ?? {}) as Record<string, unknown>;
+  const { name, email, phone, school } = (body ?? {}) as Record<string, unknown>;
 
   if (typeof name !== "string" || name.trim().length < 2) {
     return NextResponse.json({ error: "Please enter your full name." }, { status: 400 });
@@ -23,6 +23,9 @@ export async function POST(req: NextRequest) {
   }
   if (phone !== undefined && phone !== null && typeof phone !== "string") {
     return NextResponse.json({ error: "Invalid phone number." }, { status: 400 });
+  }
+  if (school !== undefined && school !== null && typeof school !== "string") {
+    return NextResponse.json({ error: "Invalid school." }, { status: 400 });
   }
 
   const supabase = getSupabase();
@@ -40,6 +43,7 @@ export async function POST(req: NextRequest) {
     name: name.trim(),
     email: email.trim().toLowerCase(),
     phone: typeof phone === "string" ? phone.trim() : null,
+    school: typeof school === "string" && school.trim() ? school.trim() : null,
   });
 
   if (error) {
