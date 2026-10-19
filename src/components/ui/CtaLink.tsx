@@ -1,6 +1,7 @@
 "use client";
 import type { Cta, SiteSettings } from "@/lib/types";
 import { track, type TrackedEvent } from "@/components/analytics/track";
+import { BrochureGate } from "./BrochureGate";
 import { Icon } from "./Icon";
 
 type Links = Pick<SiteSettings, "applyUrl" | "consultationUrl" | "primaryEmail" | "brochure">;
@@ -47,16 +48,29 @@ export function CtaLink({
   const { href, external, event } = resolveCta(cta, links);
   if (!href) return null;
   const cls = ["btn", variant !== "primary" && `btn--${variant}`, size && `btn--${size}`, className].filter(Boolean).join(" ");
+  // the brochure is gated on the intake form; everything else links straight out
+  if (cta.kind === "brochure") {
+    return (
+      <BrochureGate
+        url={href}
+        filename="CreatED-Labs-brochure.pdf"
+        className={cls}
+        onIntent={() => event && track(event, { location, label: cta.label })}
+      >
+        {cta.label}
+        {arrow && <Icon name="download" size={18} />}
+      </BrochureGate>
+    );
+  }
   return (
     <a
       className={cls}
       href={href}
       {...(external ? { target: "_blank", rel: "noopener" } : {})}
-      {...(cta.kind === "brochure" ? { download: "CreatED-Labs-brochure.pdf" } : {})}
       onClick={() => event && track(event, { location, label: cta.label })}
     >
       {cta.label}
-      {arrow && <Icon name={cta.kind === "brochure" ? "download" : "arrow"} size={18} />}
+      {arrow && <Icon name="arrow" size={18} />}
       {external && <span className="sr-only"> (opens in a new tab)</span>}
     </a>
   );
