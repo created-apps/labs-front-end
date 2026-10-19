@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import type { FaqSection, Program, Seo, SiteSettings } from "./types";
+import ogDefault from "@/assets/images/og-default.jpg";
 
 export function buildMetadata({
   settings,
@@ -19,7 +20,7 @@ export function buildMetadata({
   const image = seo?.image || settings.defaultSeo.image;
   const images = image
     ? [{ url: image.src.startsWith("https://cdn.sanity.io") ? `${image.src}?w=1200&h=630&fit=crop` : image.src, width: 1200, height: 630, alt: image.alt }]
-    : [{ url: "/og-default.jpg", width: 1200, height: 630, alt: "CreatED Labs: Synthesise an Original Lab Prototype" }];
+    : [{ url: ogDefault.src, width: ogDefault.width, height: ogDefault.height, alt: "CreatED Labs: Synthesise an Original Lab Prototype" }];
   return {
     title: { absolute: title as string },
     description,

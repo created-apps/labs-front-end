@@ -29,6 +29,6 @@ for (const job of jobs) {
     console.error(job.name, JSON.stringify(data).slice(0, 300));
     continue;
   }
-  await writeFile(`public/images/generated/${job.name}-4k.raw.jpg`, Buffer.from(part.inlineData.data, "base64"));
+  await writeFile(`src/assets/images/generated/${job.name}-4k.raw.jpg`, Buffer.from(part.inlineData.data, "base64"));
   console.log("saved", job.name);
 }

@@ -55,7 +55,7 @@ for (const job of jobs) {
     continue;
   }
   const ext = part.inlineData.mimeType.includes("png") ? "png" : "jpg";
-  const out = `public/images/generated/${job.name}.raw.${ext}`;
+  const out = `src/assets/images/generated/${job.name}.raw.${ext}`;
   await writeFile(out, Buffer.from(part.inlineData.data, "base64"));
   console.log("saved", out);
 }

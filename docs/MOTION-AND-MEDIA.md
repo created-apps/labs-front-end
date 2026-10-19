@@ -95,4 +95,4 @@ All 25 photos in `Student Pictures` are used, each exactly once. The site files 
 
 **Mentorship illustrations:** these are hand-built vector SVGs (`components/ui/MentorArt.tsx`) in the brand palette. The Gemini key ran out of prepaid credit, so they weren't generated. They show generic scientific motifs only.
 
-**Competition logos:** `public/images/logos/crest-awards.webp` and `iris-national-fair.webp` come from the official logo files supplied in the project folder. They're trimmed of white margin, never resampled or stretched, and shown on white tiles linking to each competition's site.
+**Competition logos:** `src/assets/images/logos/crest-awards.webp` and `iris-national-fair.webp` come from the official logo files supplied in the project folder. They're trimmed of white margin, never resampled or stretched, and shown on white tiles linking to each competition's site.

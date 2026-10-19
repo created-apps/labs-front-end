@@ -4,23 +4,25 @@
  *
  *   npx sanity exec scripts/seed-sanity.ts --with-user-token
  */
+import "./register-assets.cjs"; // the content imports its media from src/assets; see that file
 import { createReadStream } from "node:fs";
 import path from "node:path";
 import { getCliClient } from "sanity/cli";
-import { seedProgram, seedSettings } from "../src/content/seed";
 
 const client = getCliClient({ apiVersion: "2026-10-01" });
 const uploaded = new Map<string, string>();
 let keyN = 0;
 const key = () => `k${(keyN++).toString(36)}`;
 
+// with register-assets, every imported image or clip's src is its absolute path under src/assets
 type Img = { src: string; alt: string; caption?: string | null };
 const isImg = (v: unknown): v is Img =>
-  !!v && typeof v === "object" && "src" in v && "alt" in v && typeof (v as Img).src === "string" && (v as Img).src.startsWith("/images/");
+  !!v && typeof v === "object" && "src" in v && "alt" in v && typeof (v as Img).src === "string" && /\.(jpe?g|png|webp)$/i.test((v as Img).src);
 
 async function upload(src: string, kind: "image" | "file" = "image") {
   if (uploaded.has(src)) return uploaded.get(src)!;
-  const file = path.join(process.cwd(), "public", src);
+  if (!path.isAbsolute(src)) throw new Error(`Expected an imported asset path, got ${src}`);
+  const file = src;
   const asset = await client.assets.upload(kind, createReadStream(file), { filename: path.basename(file) });
   uploaded.set(src, asset._id);
   console.log("  uploaded", src);
@@ -51,7 +53,7 @@ async function toSanity(v: unknown, inArray = false): Promise<unknown> {
   }
   if (isClip(v)) return clipToSanity(v, inArray);
   // official logos (outcome links): a plain image field
-  if (v && typeof v === "object" && typeof (v as { src?: unknown }).src === "string" && (v as { src: string }).src.startsWith("/images/logos/")) {
+  if (v && typeof v === "object" && typeof (v as { src?: unknown }).src === "string" && (v as { src: string }).src.includes(`${path.sep}assets${path.sep}images${path.sep}logos${path.sep}`)) {
     return { _type: "image", asset: { _type: "reference", _ref: await upload((v as { src: string }).src) } };
   }
   if (isImg(v)) {
@@ -72,6 +74,8 @@ async function toSanity(v: unknown, inArray = false): Promise<unknown> {
 }
 
 async function main() {
+  // loaded only now, after register-assets has taught Node to read media imports
+  const { seedProgram, seedSettings } = await import("../src/content/seed");
   console.log("Site settings…");
   const { gaMeasurementId, defaultSeo, ...settings } = seedSettings;
   delete (settings as { brochure?: unknown }).brochure;

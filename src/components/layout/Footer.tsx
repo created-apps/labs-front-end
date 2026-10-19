@@ -1,4 +1,5 @@
 import Image from "next/image";
+import createdLogo from "@/assets/images/brand/created-logo.png";
 import Link from "next/link";
 import type { SiteSettings } from "@/lib/types";
 import type { NavItem } from "./Header";
@@ -11,7 +12,7 @@ export function Footer({ settings, nav }: { settings: SiteSettings; nav: NavItem
         <div className="footer-grid">
           <div>
             <Link href="/" className="brand" aria-label="CreatED Labs home">
-              <Image src="/images/created-logo.png" alt="CreatED" width={1945} height={586} sizes="120px" />
+              <Image src={createdLogo} alt="CreatED" sizes="120px" />
               <span className="brand__labs" aria-hidden="true">
                 Labs
               </span>

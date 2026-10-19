@@ -1,5 +1,9 @@
 "use client";
 import { useEffect, useRef } from "react";
+import createdLogo from "@/assets/images/brand/created-logo.png";
+import workbenchHd from "@/assets/images/generated/workbench-hd.jpg";
+import workbenchMd from "@/assets/images/generated/workbench-md.jpg";
+import causticsSoft from "@/assets/images/generated/caustics-soft.jpg";
 
 export function CaptureStage({ name, t, mobile, save, opening }: { name: string; t: number; mobile: boolean; save: boolean; opening: boolean }) {
   const ref = useRef<HTMLCanvasElement>(null);
@@ -7,12 +11,12 @@ export function CaptureStage({ name, t, mobile, save, opening }: { name: string;
     let alive = true;
     (async () => {
       const { createStage } = await import("@/components/stage/scene");
-      const logo = opening ? await (await import("@/components/stage/logo")).buildLogo("/images/created-logo.png") : undefined;
+      const logo = opening ? await (await import("@/components/stage/logo")).buildLogo(createdLogo.src) : undefined;
       createStage(ref.current!, {
         opening: logo,
         mobile,
-        benchUrl: mobile ? "/images/generated/workbench-md.jpg" : "/images/generated/workbench-hd.jpg",
-        causticsUrl: "/images/generated/caustics-soft.jpg",
+        benchUrl: mobile ? workbenchMd.src : workbenchHd.src,
+        causticsUrl: causticsSoft.src,
         onFirstFrame: () => {},
       });
       await new Promise((r) => setTimeout(r, 3000)); // let the textures load

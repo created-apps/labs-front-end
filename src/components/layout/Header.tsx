@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import createdLogo from "@/assets/images/brand/created-logo.png";
 import Link from "next/link";
 import { AnimatePresence, m } from "motion/react";
 import type { SiteSettings } from "@/lib/types";
@@ -31,7 +32,7 @@ export function Header({ nav, links }: { nav: NavItem[]; links: Pick<SiteSetting
     <header className="site-header" data-scrolled={scrolled || open}>
       <div className="container site-header__inner">
         <Link href="/" className="brand" aria-label="CreatED Labs home">
-          <Image src="/images/created-logo.png" alt="CreatED" width={1945} height={586} preload sizes="110px" />
+          <Image src={createdLogo} alt="CreatED" preload sizes="110px" />
           <span className="brand__labs" aria-hidden="true">
             Labs
           </span>

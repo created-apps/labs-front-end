@@ -140,9 +140,9 @@ docs/MOTION-AND-MEDIA.md   the motion choreography and the one-use-per-file medi
 
 The notepad tear-off and the fresh sheet's travel are a small scroll-driven script (no library). Everything else (checklist ticks, the Who-it's-for coverflow, mentorship stages) is plain CSS triggered once by an IntersectionObserver. Looping clips (`components/ui/LoopVideo.tsx`) play only while on screen and load their posters as they approach.
 
-With `prefers-reduced-motion`, Save-Data or no WebGL, the hero shows a still render (`public/images/stage/hero*.webp`); the tube and week track render full.
+With `prefers-reduced-motion`, Save-Data or no WebGL, the hero shows a still render (`src/assets/images/stage/hero*.webp`); the tube and week track render full.
 
-**Updating the hero stills** after changing the 3D scene: run `npm run dev -- -p 3101` and open these in a browser (the page renders the scene at time `t` and saves a WebP into `public/images/stage/`; both routes exist only in development):
+**Updating the hero stills** after changing the 3D scene: run `npm run dev -- -p 3101` and open these in a browser (the page renders the scene at time `t` and saves a WebP into `src/assets/images/stage/`; both routes exist only in development):
 
 - desktop window (about 1600×1000): `/stage-capture?t=10&name=hero&save=1` and `/stage-capture?t=0.02&name=hero-start&save=1`
 - phone-sized window (430×932): the same two URLs with `&mobile=1`
@@ -169,6 +169,13 @@ How it behaves:
 
 The full choreography is in `docs/MOTION-AND-MEDIA.md`.
 
-**Images and video:** the student photos are real and stored in `public/images/lab` with EXIF and location data stripped. `public/media/lab-*.mp4` are short muted cuts of the students' own lab videos (originals untouched). The workbench and caustics textures in `public/images/generated` were made with Gemini (`scripts/generate-stage.mjs`), none of them contain people or projects. The mentorship diagrams are hand-built SVGs (`components/ui/MentorArt.tsx`), because the Gemini key's prepaid credit ran out.
+**Media lives in `src/assets`** and is imported where it's used:
+- **Images** (`images/lab`, `logos`, `stage`, `generated`, `brand`): Next's static image imports, which carry the real size and a blur placeholder.
+- **Clips** (`media/*.mp4` with their poster `.jpg`): imported through the `turbopack.rules` entry in `next.config.ts`.
+- **Manifests:** `src/content/images.ts` (photos, logos, textures) and `src/content/clips.ts` (clips) are the manifests the content uses.
+- **Serving:** files are emitted with hashed names under `/_next/static/media`, so they cache forever. Nothing is served from `public/`.
+- **Sanity seed:** `scripts/seed-sanity.ts` loads `scripts/register-assets.cjs`, so Node can read those imports and upload the files.
+
+**Images and video:** the student photos are real and stored in `src/assets/images/lab` with EXIF and location data stripped. `src/assets/media/lab-*.mp4` are short muted cuts of the students' own lab videos (originals untouched). The workbench and caustics textures in `src/assets/images/generated` were made with Gemini (`scripts/generate-stage.mjs`), none of them contain people or projects. The mentorship diagrams are hand-built SVGs (`components/ui/MentorArt.tsx`), because the Gemini key's prepaid credit ran out.
 
 > **Security:** the Gemini API key used during the build was shared in chat. Rotate it in Google AI Studio. It lives only in the git-ignored `.env.local` and is never used by the website.

@@ -1,6 +1,17 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import type { Stage as StageApi } from "./scene";
+import createdLogo from "@/assets/images/brand/created-logo.png";
+import workbenchHd from "@/assets/images/generated/workbench-hd.jpg";
+import workbenchMd from "@/assets/images/generated/workbench-md.jpg";
+import causticsSoft from "@/assets/images/generated/caustics-soft.jpg";
+// stills of the scene (rendered by /stage-capture): first frame, settled frame, empty beaker
+import opening from "@/assets/images/stage/opening.webp";
+import openingMobile from "@/assets/images/stage/opening-mobile.webp";
+import hero from "@/assets/images/stage/hero.webp";
+import heroMobile from "@/assets/images/stage/hero-mobile.webp";
+import heroStart from "@/assets/images/stage/hero-start.webp";
+import heroStartMobile from "@/assets/images/stage/hero-start-mobile.webp";
 
 /**
  * The hero's 3D scene. On every load (the gate in <head> sets html[data-opening="play"]) it starts on
@@ -53,7 +64,7 @@ export function Stage() {
     const load = async () => {
       const [{ createStage }, logo] = await Promise.all([
         import("./scene"),
-        opening ? import("./logo").then((m) => m.buildLogo("/images/created-logo.png").catch(() => null)) : null,
+        opening ? import("./logo").then((m) => m.buildLogo(createdLogo.src).catch(() => null)) : null,
       ]);
       if (disposed) return;
       const withOpening = opening && !!logo;
@@ -61,8 +72,8 @@ export function Stage() {
       try {
         stage = createStage(canvas, {
           mobile,
-          benchUrl: mobile ? "/images/generated/workbench-md.jpg" : "/images/generated/workbench-hd.jpg",
-          causticsUrl: "/images/generated/caustics-soft.jpg",
+          benchUrl: mobile ? workbenchMd.src : workbenchHd.src,
+          causticsUrl: causticsSoft.src,
           opening: withOpening ? logo! : undefined,
           onFirstFrame: () => {
             started = true;
@@ -107,16 +118,16 @@ export function Stage() {
     <div className="hero__stage" ref={rootRef} data-live={live} aria-hidden="true">
       {/* first visit: the opening frame (the logo above the workbench) */}
       <picture className="hero__still hero__still--opening">
-        <source media="(max-width: 899px)" srcSet="/images/stage/opening-mobile.webp" />
+        <source media="(max-width: 899px)" srcSet={openingMobile.src} />
         {/* eager: it's the first thing a first-time visitor sees (31 KB; 10 KB on phones) */}
-        <img src="/images/stage/opening.webp" alt="" fetchPriority="high" decoding="async" />
+        <img src={opening.src} alt="" fetchPriority="high" decoding="async" />
       </picture>
       {/* repeat visits start at the workbench; reduced motion shows the finished hero */}
       <picture className="hero__still hero__still--base">
-        <source media="(max-width: 899px) and (prefers-reduced-motion: reduce)" srcSet="/images/stage/hero-mobile.webp" />
-        <source media="(prefers-reduced-motion: reduce)" srcSet="/images/stage/hero.webp" />
-        <source media="(max-width: 899px)" srcSet="/images/stage/hero-start-mobile.webp" />
-        <img src="/images/stage/hero-start.webp" alt="" loading="lazy" fetchPriority="high" decoding="async" />
+        <source media="(max-width: 899px) and (prefers-reduced-motion: reduce)" srcSet={heroMobile.src} />
+        <source media="(prefers-reduced-motion: reduce)" srcSet={hero.src} />
+        <source media="(max-width: 899px)" srcSet={heroStartMobile.src} />
+        <img src={heroStart.src} alt="" loading="lazy" fetchPriority="high" decoding="async" />
       </picture>
       <canvas ref={canvasRef} />
       <div className="hero__vignette" />

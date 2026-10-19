@@ -1,7 +1,8 @@
 // Launch content from "CreatED Lab launch document.md".
 // Used when no Sanity project is connected, and imported into Sanity by scripts/seed-sanity.ts.
 import type { Extras, Program, SiteSettings } from "@/lib/types";
-import { labImages as L } from "./images";
+import { labImages as L, logos } from "./images";
+import { labClips } from "./clips";
 
 export const APPLY_URL = "https://forms.gle/ppFQpxY1aHbJ3J8x7";
 
@@ -64,8 +65,8 @@ export const seedProgram: Program = {
           _key: "n3", qty: "2", title: "Competitions",
           body: "Applications to the CREST Gold Award and the IRIS National Science Fair. Awards are decided by each competition's independent judging.",
           links: [
-            { label: "CREST Awards", href: "https://www.crestawards.org/", logo: { src: "/images/logos/crest-awards.webp", width: 503, height: 397 } },
-            { label: "IRIS National Fair", href: "https://www.irisnationalfair.org/", logo: { src: "/images/logos/iris-national-fair.webp", width: 315, height: 427 } },
+            { label: "CREST Awards", href: "https://www.crestawards.org/", logo: logos.crestAwards },
+            { label: "IRIS National Fair", href: "https://www.irisnationalfair.org/", logo: logos.irisNationalFair },
           ],
         },
       ],
@@ -125,8 +126,8 @@ export const seedProgram: Program = {
         { _key: "ls3", weekStart: 8, weekEnd: 10, art: "paper", title: "Results & Discussion", detail: "Analyze your experimental results and complete the results and discussion sections of your research paper, interpreting your findings in relation to your original research question." },
       ],
       clips: [
-        { src: "/media/lab-amber-stir.mp4", poster: "/media/lab-amber-stir.jpg", alt: "A CreatED Labs student pipetting into an amber solution on a stirrer" },
-        { src: "/media/lab-stirrer-boy.mp4", poster: "/media/lab-stirrer-boy.jpg", alt: "A CreatED Labs student adding a reagent to a beaker on a magnetic stirrer" },
+        labClips.amberStir,
+        labClips.stirrerBoy,
       ],
       images: [{ ...L.hotplateStir, focus: { x: 0.5, y: 0.2 } }, L.biosafety, L.foilBeaker], // keep the student's face in frame
     },
@@ -141,9 +142,9 @@ export const seedProgram: Program = {
         { _key: "st2", value: "PhD", label: "From IIT" },
         { _key: "st3", value: "16", label: "Spots per cohort" },
       ],
-      clip: { src: "/media/lab-weighing.mp4", poster: "/media/lab-weighing.jpg", alt: "A CreatED Labs student weighing out a sample at the lab bench" },
+      clip: labClips.weighing,
       clipTag: "Measure",
-      clip2: { src: "/media/lab-labelling.mp4", poster: "/media/lab-labelling.jpg", alt: "A CreatED Labs student labelling a prepared sample" },
+      clip2: labClips.labelling,
       clip2Tag: "Record",
       photo: L.sampleVial,
       photoTag: "Result",
