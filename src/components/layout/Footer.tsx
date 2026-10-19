@@ -2,6 +2,7 @@ import Image from "next/image";
 import createdLogoOnDark from "@/assets/images/brand/created-logo-on-dark.png";
 import Link from "next/link";
 import type { SiteSettings } from "@/lib/types";
+import { BrochureGate } from "@/components/ui/BrochureGate";
 import type { NavItem } from "./Header";
 
 export function Footer({ settings, nav }: { settings: SiteSettings; nav: NavItem[] }) {
@@ -44,9 +45,9 @@ export function Footer({ settings, nav }: { settings: SiteSettings; nav: NavItem
               )}
               {brochure && (
                 <li>
-                  <a href={brochure} download="CreatED-Labs-brochure.pdf">
+                  <BrochureGate url={brochure} filename="CreatED-Labs-brochure.pdf">
                     Download brochure
-                  </a>
+                  </BrochureGate>
                 </li>
               )}
               <li>
