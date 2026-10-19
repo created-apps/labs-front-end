@@ -12,14 +12,6 @@ export type NavItem = { href: string; label: string };
 
 export function Header({ nav, links }: { nav: NavItem[]; links: Pick<SiteSettings, "applyUrl" | "consultationUrl" | "primaryEmail" | "brochure"> }) {
   const [open, setOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 8);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
 
   useEffect(() => {
     if (!open) return;
@@ -29,7 +21,8 @@ export function Header({ nav, links }: { nav: NavItem[]; links: Pick<SiteSetting
   }, [open]);
 
   return (
-    <header className="site-header" data-scrolled={scrolled || open}>
+    // light, like create-ed.in, and not sticky: every section ends with its own Apply Now button
+    <header className="site-header">
       <div className="container site-header__inner">
         <Link href="/" className="brand" aria-label="CreatED Labs home">
           <Image src={createdLogo} alt="CreatED" preload sizes="110px" />
@@ -45,7 +38,7 @@ export function Header({ nav, links }: { nav: NavItem[]; links: Pick<SiteSetting
           ))}
         </nav>
         <div className="header-ctas">
-          <CtaLink cta={{ label: "Book a Consultation", kind: "consult" }} links={links} variant="ghost" size="sm" location="header" arrow={false} />
+          <CtaLink cta={{ label: "Download Brochure", kind: "brochure" }} links={links} variant="ghost" size="sm" location="header" arrow={false} />
           <CtaLink cta={{ label: "Apply Now", kind: "apply" }} links={links} size="sm" location="header" arrow={false} />
         </div>
         <button
@@ -84,7 +77,7 @@ export function Header({ nav, links }: { nav: NavItem[]; links: Pick<SiteSetting
               ))}
             </nav>
             <div className="btn-row">
-              <CtaLink cta={{ label: "Book a Consultation", kind: "consult" }} links={links} variant="ghost" location="mobile_menu" />
+              <CtaLink cta={{ label: "Download Brochure", kind: "brochure" }} links={links} variant="ghost" location="mobile_menu" />
               <CtaLink cta={{ label: "Apply Now", kind: "apply" }} links={links} location="mobile_menu" />
             </div>
           </m.div>

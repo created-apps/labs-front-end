@@ -11,9 +11,9 @@ const securityHeaders = [
 const nextConfig: NextConfig = {
   turbopack: {
     root: path.join(__dirname),
-    // video clips live in src/assets/media and are imported like images; Turbopack emits a hashed
-    // file and the import returns its URL
-    rules: { "*.mp4": { type: "asset" } },
+    // video clips (src/assets/media) and the brochure (src/assets/docs) are imported like images;
+    // Turbopack emits a hashed file and the import returns its URL
+    rules: { "*.mp4": { type: "asset" }, "*.pdf": { type: "asset" } },
   },
   devIndicators: false,
   images: {

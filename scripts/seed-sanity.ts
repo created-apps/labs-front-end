@@ -77,12 +77,16 @@ async function main() {
   // loaded only now, after register-assets has taught Node to read media imports
   const { seedProgram, seedSettings } = await import("../src/content/seed");
   console.log("Site settings…");
-  const { gaMeasurementId, defaultSeo, ...settings } = seedSettings;
-  delete (settings as { brochure?: unknown }).brochure;
+  const { gaMeasurementId, defaultSeo, brochure, ...settings } = seedSettings;
+  // the brochure import is the PDF's path on disk: upload it as a Sanity file
+  const brochureFile = brochure?.url
+    ? await client.assets.upload("file", createReadStream(brochure.url), { filename: brochure.filename || path.basename(brochure.url) })
+    : null;
   await client.createOrReplace({
     _id: "siteSettings",
     _type: "siteSettings",
     ...(await toSanity(settings) as object),
+    ...(brochureFile ? { brochure: { _type: "file", asset: { _type: "reference", _ref: brochureFile._id } } } : {}),
     ...(gaMeasurementId ? { gaMeasurementId } : {}),
     defaultSeo: await toSanity(defaultSeo),
   });

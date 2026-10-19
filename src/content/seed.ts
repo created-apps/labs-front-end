@@ -3,6 +3,7 @@
 import type { Extras, Program, SiteSettings } from "@/lib/types";
 import { labImages as L, logos } from "./images";
 import { labClips } from "./clips";
+import brochurePdf from "@/assets/docs/created-labs-2027-brochure.pdf";
 
 export const APPLY_URL = "https://forms.gle/ppFQpxY1aHbJ3J8x7";
 
@@ -14,7 +15,8 @@ export const seedSettings: SiteSettings = {
   // Replace with the Calendly link in Site settings. Until then consultations go to email.
   consultationUrl: null,
   primaryEmail: "labs@create-ed.in",
-  brochure: null,
+  primaryPhone: "+91 72083 28785",
+  brochure: { url: brochurePdf, filename: "CreatED-Labs-2027-Brochure.pdf" },
   gaMeasurementId: process.env.NEXT_PUBLIC_GA_ID || null,
   searchConsoleVerification: null,
   defaultSeo: {
@@ -51,7 +53,7 @@ export const seedProgram: Program = {
       body: "A selective, 10-week research and innovation program. Students work in pairs with a dedicated IIT PhD mentor in Chemical Engineering, Biotechnology or Materials Science. Through guided research, experimentation and hands-on lab testing, students take an idea, synthesise a prototype and publish a research paper.",
       applyNote: "Apply individually or in teams of two.",
       primaryCta: { label: "Apply Now", kind: "apply" },
-      secondaryCta: { label: "Book a Consultation", kind: "consult" },
+      secondaryCta: { label: "Download Brochure", kind: "brochure" },
     },
     {
       _type: "notebookSection",
@@ -189,10 +191,10 @@ export const seedProgram: Program = {
       _type: "ctaSection",
       _key: "cta",
       heading: "Your gateway to real research.",
-      body: "Spots are filled on a rolling basis. Apply before 7 April 2027, or book a consultation to talk it through first.",
+      body: "Spots are filled on a rolling basis. Apply before 7 April 2027, or download the brochure for the full details first.",
       primaryCta: { label: "Apply Now", kind: "apply" },
-      secondaryCta: { label: "Book a Consultation", kind: "consult" },
-      showBrochure: true,
+      secondaryCta: { label: "Download Brochure", kind: "brochure" },
+      showBrochure: false, // the secondary button is already the brochure
       images: [L.oven, L.stirrerPipette, L.lightInspection, L.yellowBeaker],
     },
     {

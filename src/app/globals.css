@@ -43,7 +43,7 @@
 }
 html {
   -webkit-text-size-adjust: 100%;
-  scroll-padding-top: calc(var(--header-h) + 16px);
+  scroll-padding-top: 16px; /* the header scrolls away, so anchors need no offset */
   background: var(--bg);
 }
 @media (prefers-reduced-motion: no-preference) {
@@ -309,22 +309,29 @@ main > section,
   backdrop-filter: blur(8px);
 }
 
-/* ---------- Header ---------- */
+/* Apply Now at the end of each section: it sits in the section's bottom padding, so it reads as part
+   of that section and adds little scroll */
+.after-apply {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  margin-top: calc(var(--section-pad) * -0.55);
+  padding-bottom: calc(var(--section-pad) * 0.3);
+}
+.after-apply .btn {
+  min-width: 200px;
+  justify-content: center;
+}
+
+/* ---------- Header (light, like create-ed.in; it scrolls away with the page) ---------- */
 .site-header {
-  position: fixed;
-  inset: 0 0 auto 0;
+  position: relative;
   z-index: 50;
   padding-top: env(safe-area-inset-top, 0px);
-  transition:
-    background-color 0.4s,
-    border-color 0.4s;
-  border-bottom: 1px solid transparent;
-}
-.site-header[data-scrolled="true"] {
-  background: rgb(19 18 17 / 0.72);
-  backdrop-filter: blur(18px) saturate(1.3);
-  -webkit-backdrop-filter: blur(18px) saturate(1.3);
-  border-bottom-color: var(--line);
+  background: #fff;
+  color: var(--ink);
+  border-bottom: 1px solid rgb(35 35 35 / 0.08);
 }
 .site-header__inner {
   height: var(--header-h);
@@ -339,10 +346,10 @@ main > section,
   text-decoration: none;
   flex-shrink: 0;
 }
+/* the logo in its own colours: dark lettering, sunflower-yellow bulb */
 .brand img {
-  height: 28px;
+  height: 30px;
   width: auto;
-  filter: invert(1) hue-rotate(180deg) brightness(1.15);
 }
 .brand__labs {
   font-weight: 300;
@@ -360,19 +367,28 @@ main > section,
 .nav a {
   text-decoration: none;
   font-size: 0.8125rem;
-  font-weight: 500;
+  font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   padding: 8px 14px;
   border-radius: 999px;
-  color: var(--muted);
+  color: rgb(35 35 35 / 0.78);
   transition:
     color 0.2s,
     background-color 0.2s;
 }
 .nav a:hover {
-  color: var(--azure);
-  background: rgb(242 253 255 / 0.08);
+  color: var(--ink);
+  background: rgb(35 35 35 / 0.06);
+}
+/* outline buttons are drawn for dark backgrounds elsewhere; on the white header they go dark */
+.site-header .btn--ghost {
+  color: var(--ink);
+  border-color: rgb(35 35 35 / 0.32);
+  background: transparent;
+}
+.site-header .btn--ghost:hover {
+  background: rgb(35 35 35 / 0.06);
 }
 .header-ctas {
   display: flex;
@@ -383,19 +399,21 @@ main > section,
   width: 44px;
   height: 44px;
   border-radius: 999px;
-  border: 1px solid rgb(242 253 255 / 0.4);
-  background: rgb(19 18 17 / 0.4);
+  border: 1px solid rgb(35 35 35 / 0.25);
+  background: transparent;
+  color: var(--ink);
   align-items: center;
   justify-content: center;
   cursor: pointer;
 }
 .mobile-menu {
-  position: fixed;
-  inset: calc(var(--header-h) + env(safe-area-inset-top, 0px)) 0 auto 0;
-  z-index: 49;
-  background: rgb(19 18 17 / 0.96);
-  backdrop-filter: blur(18px);
-  border-bottom: 1px solid var(--line);
+  position: absolute;
+  inset: 100% 0 auto 0;
+  z-index: 60;
+  background: #fff;
+  color: var(--ink);
+  border-bottom: 1px solid rgb(35 35 35 / 0.1);
+  box-shadow: 0 30px 50px -30px rgb(0 0 0 / 0.5);
   padding: 16px max(var(--gutter), env(safe-area-inset-left, 0px)) 28px;
   display: grid;
   gap: 4px;
@@ -406,7 +424,7 @@ main > section,
   letter-spacing: -0.03em;
   text-decoration: none;
   padding: 10px 0;
-  border-bottom: 1px solid var(--line);
+  border-bottom: 1px solid rgb(35 35 35 / 0.1);
 }
 .mobile-menu .btn-row {
   margin-top: 18px;
@@ -435,7 +453,7 @@ main > section,
 /* ---------- Hero (3D workbench behind the copy) ---------- */
 .hero {
   position: relative;
-  min-height: max(660px, 100svh);
+  min-height: max(600px, calc(100svh - var(--header-h))); /* header + hero = one screen */
   display: grid;
   overflow: hidden;
   background: #131211;
@@ -476,7 +494,7 @@ html[data-opening="play"] .hero__still--opening {
 /* the opening frame is framed on the screen, which on phones is shorter than the hero */
 .hero__stage > .hero__still--opening {
   bottom: auto;
-  height: 100svh;
+  height: calc(100svh - var(--header-h));
 }
 html[data-opening="play"] .hero__still--base {
   display: none;
@@ -519,7 +537,7 @@ html[data-opening="play"] .hero__vignette {
   grid-template-columns: repeat(12, minmax(0, 1fr));
   grid-template-rows: auto 1fr auto;
   gap: 16px 24px;
-  padding: calc(var(--header-h) + clamp(16px, 3vw, 40px)) max(var(--gutter), env(safe-area-inset-left, 0px)) clamp(28px, 4vw, 48px);
+  padding: clamp(20px, 3vw, 40px) max(var(--gutter), env(safe-area-inset-left, 0px)) clamp(28px, 4vw, 48px);
   max-width: calc(1600px + var(--gutter) * 2);
   width: 100%;
   margin-inline: auto;
@@ -1012,7 +1030,7 @@ html[data-opening="play"] .hero__vignette {
 }
 .describe__copy {
   position: sticky;
-  top: calc(var(--header-h) + 48px);
+  top: 48px;
   display: grid;
   gap: 24px;
 }
@@ -2491,7 +2509,7 @@ h2.eyebrow {
 }
 .faq__aside {
   position: sticky;
-  top: calc(var(--header-h) + 32px);
+  top: 32px;
   display: grid;
   gap: 22px;
 }
@@ -2691,9 +2709,7 @@ h2.eyebrow {
   padding-block: 72px calc(32px + env(safe-area-inset-bottom, 0px));
   overflow: hidden;
 }
-.site-footer .brand img {
-  filter: invert(1) hue-rotate(180deg) brightness(1.15);
-}
+
 .footer-grid {
   display: grid;
   grid-template-columns: minmax(0, 1.4fr) repeat(2, minmax(0, 1fr));
@@ -2793,7 +2809,7 @@ h2.eyebrow {
   margin-left: 8px;
 }
 .page-top {
-  padding-top: calc(var(--header-h) + 48px);
+  padding-top: 48px;
 }
 .prose {
   max-width: 720px;

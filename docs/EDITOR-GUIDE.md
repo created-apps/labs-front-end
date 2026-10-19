@@ -4,7 +4,7 @@
 
 The left menu has these sections:
 
-- **Site settings:** the Apply link, the Calendly link, the contact email, the brochure PDF, Google Analytics and search settings. Changes here apply everywhere.
+- **Site settings:** the Apply link, the contact email and phone (shown in the footer), the brochure PDF, the Calendly link, Google Analytics and search settings. Changes here apply everywhere.
 - **Program pages:** the CreatED Labs page and any future program pages.
 - **Student projects, Achievements, Testimonials:** these appear on the page automatically once at least one is published.
 - **Redirects:** forward an old web address to a new one.
@@ -75,8 +75,10 @@ Leave **Use as the home page** switched off; only the main CreatED Labs page use
 ## Fees, dates and buttons
 
 - **Fee:** open the program, then **Program details → Program fee**. Switch on **Show fee on the page** to display it.
-- **Calendly link:** open **Site settings → Book a consultation link**. Every "Book a Consultation" button updates.
-- **Brochure:** upload a PDF in **Site settings → Brochure**. A download button appears in the final call-to-action band.
+- **Brochure:** replace the PDF in **Site settings → Brochure**. Every "Download Brochure" button (header, hero, final band, footer) downloads the new file. With no PDF uploaded, those buttons are hidden.
+- **Apply Now:** an Apply Now button follows every section that doesn't already have one, so visitors can apply from anywhere without a sticky header. It always uses the Apply link from Site settings.
+- **Contact details:** the footer's email and phone come from **Site settings → Contact email / Contact phone**.
+- **Calendly link:** optional. Only used by a button set to "Book a consultation", and none are on the page now.
 
 ## Undo a mistake
 

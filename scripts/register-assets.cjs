@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/no-require-imports -- CommonJS on purpose: it installs require hooks */
 // Lets Node scripts (the Sanity seed) load the site's content files, which import their media from
 // src/assets the way Next does. Each image import becomes { src: <absolute file path>, width, height }
-// and each .mp4 import becomes its absolute file path, so the script can upload the files directly.
+// and each .mp4 or .pdf import becomes its absolute file path, so the script can upload the files directly.
 // Works whether the script runs as CommonJS (require hooks) or as ES modules (loader hooks).
 const Module = require("node:module");
 const path = require("node:path");
@@ -9,9 +10,9 @@ const { pathToFileURL } = require("node:url");
 const SRC = path.join(__dirname, "..", "src");
 const IMAGES = [".jpg", ".jpeg", ".png", ".webp", ".avif", ".gif"];
 
-for (const ext of [...IMAGES, ".mp4"]) {
+for (const ext of [...IMAGES, ".mp4", ".pdf"]) {
   Module._extensions[ext] = (mod, filename) => {
-    mod.exports = ext === ".mp4" ? filename : { src: filename, width: 0, height: 0, blurDataURL: "" };
+    mod.exports = !IMAGES.includes(ext) ? filename : { src: filename, width: 0, height: 0, blurDataURL: "" };
   };
 }
 const resolveFilename = Module._resolveFilename;

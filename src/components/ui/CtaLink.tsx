@@ -17,8 +17,11 @@ export function resolveCta(cta: Cta, links: Links): { href: string | null; exter
             external: false,
             event: "consultation_click",
           };
-    case "brochure":
-      return { href: links.brochure?.url ? `${links.brochure.url}?dl=` : null, external: false, event: "brochure_download" };
+    case "brochure": {
+      // hidden until a brochure exists; Sanity's CDN downloads with ?dl=, local files with the download attribute
+      const url = links.brochure?.url;
+      return { href: url ? (url.includes("cdn.sanity.io") ? `${url}?dl=` : url) : null, external: false, event: "brochure_download" };
+    }
     default:
       return { href: cta.href || null, external: !!cta.href?.startsWith("http") };
   }
@@ -49,6 +52,7 @@ export function CtaLink({
       className={cls}
       href={href}
       {...(external ? { target: "_blank", rel: "noopener" } : {})}
+      {...(cta.kind === "brochure" ? { download: "CreatED-Labs-brochure.pdf" } : {})}
       onClick={() => event && track(event, { location, label: cta.label })}
     >
       {cta.label}

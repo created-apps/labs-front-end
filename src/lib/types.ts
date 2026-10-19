@@ -27,6 +27,7 @@ export type SiteSettings = {
   applyUrl: string;
   consultationUrl?: string | null;
   primaryEmail: string;
+  primaryPhone?: string | null;
   brochure?: { url: string; filename?: string | null } | null;
   gaMeasurementId?: string | null;
   searchConsoleVerification?: string | null;

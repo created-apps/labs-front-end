@@ -12,7 +12,7 @@ Everything else stays quiet so these two read clearly.
 There is no splash screen. The opening is the first state of the hero's own Three.js scene. The wordmark, pipette, workbench, stirrer and beaker share one space, one light and one camera.
 
 **Set-up.**
-- **Wordmark:** the existing CreatED logo, unchanged and with the same dark-background treatment as the header, plus the header's `| LABS` lockup. It hangs in the air above the workbench.
+- **Wordmark:** the existing CreatED logo in its on-dark version (as in the footer; the header is white and uses the original), plus the `| LABS` lockup. It hangs in the air above the workbench.
 - **Placement:** the D's light-bulb base sits directly above the beaker's pour point.
 - **Pipette:** a glass Pasteur pipette holds hot-pink liquid above the E.
 
@@ -69,7 +69,8 @@ Each fact now has one home. The page dropped from 18.5 to 13 screens on desktop 
 | 2:1 Mentorship | Who the mentors are, the stats and the session footage |
 | Who it's for | Fit, reassurance and the coverflow of student photos |
 | Application Process | The steps, ideation, the deadline and "After you apply" |
-| FAQ, Gateway, Footer | Unchanged |
+| Gateway, FAQ | Unchanged |
+| Footer | Contact email, phone and brochure download |
 
 Removed and merged:
 - **Program Description:** repeated the hero notebook text.

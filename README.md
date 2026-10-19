@@ -151,7 +151,9 @@ With `prefers-reduced-motion`, Save-Data or no WebGL, the hero shows a still ren
 
 `opening*` is the first frame of a first visit; `hero-start*` is the empty beaker for repeat visits; `hero*` is the settled frame used for reduced motion.
 
-**Hero opening (every page load):** the hero's own 3D scene starts on the existing CreatED logo (unchanged, with the header's `| LABS`), which hangs above the workbench.
+**Header:** white and not sticky, matching create-ed.in, with the original logo. Instead of a sticky bar, an Apply Now button follows every section that doesn't already have one (`SectionRenderer.tsx`). The footer uses the on-dark logo (`images/brand/created-logo-on-dark.png`).
+
+**Hero opening (every page load):** the hero's own 3D scene starts on the existing CreatED logo (unchanged, with the `| LABS` lockup), which hangs above the workbench.
 
 1. A pipette drops hot-pink liquid into the E's double-line tube.
 2. The liquid runs through the arrow and fills the light-bulb D, which then lights up in the logo's Sunglow.
@@ -171,7 +173,7 @@ The full choreography is in `docs/MOTION-AND-MEDIA.md`.
 
 **Media lives in `src/assets`** and is imported where it's used:
 - **Images** (`images/lab`, `logos`, `stage`, `generated`, `brand`): Next's static image imports, which carry the real size and a blur placeholder.
-- **Clips** (`media/*.mp4` with their poster `.jpg`): imported through the `turbopack.rules` entry in `next.config.ts`.
+- **Clips** (`media/*.mp4` with their poster `.jpg`) and the **brochure** (`docs/created-labs-2027-brochure.pdf`, from `CreatED-Labs-2027-Brochure-FINAL-Digital.pdf`): imported through the `turbopack.rules` entries in `next.config.ts`. The seed uploads the brochure to Sanity as the Site settings PDF.
 - **Manifests:** `src/content/images.ts` (photos, logos, textures) and `src/content/clips.ts` (clips) are the manifests the content uses.
 - **Serving:** files are emitted with hashed names under `/_next/static/media`, so they cache forever. Nothing is served from `public/`.
 - **Sanity seed:** `scripts/seed-sanity.ts` loads `scripts/register-assets.cjs`, so Node can read those imports and upload the files.

@@ -17,6 +17,7 @@ export const siteSettings = defineType({
     defineField({ name: "applyUrl", title: "Application form link", type: "url", group: "links", description: "Every 'Apply Now' button uses this link.", validation: (r) => r.required() }),
     defineField({ name: "consultationUrl", title: "Book a consultation link", type: "url", group: "links", description: "Your Calendly link. If empty, consultation buttons open an email to the address below." }),
     defineField({ name: "primaryEmail", title: "Contact email", type: "string", group: "links", validation: (r) => r.required().email() }),
+    defineField({ name: "primaryPhone", title: "Contact phone", type: "string", group: "links", description: "Shown in the footer, e.g. +91 72083 28785" }),
     defineField({ name: "brochure", title: "Brochure (PDF)", type: "file", group: "links", options: { accept: "application/pdf" } }),
     defineField({ name: "footerNote", type: "string", group: "general" }),
     defineField({ name: "defaultSeo", title: "Default search & sharing", type: "seo", group: "seo" }),

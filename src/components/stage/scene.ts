@@ -555,7 +555,10 @@ export function createStage(
     if (!w || !h) return;
     W = w;
     Hh = h;
-    viewH = Math.min(h, window.innerHeight || h); // on phones the hero is taller than the screen
+    // the part of the canvas on screen at the top of the page: below the header, and on phones the
+    // hero is taller than the screen
+    const top = Math.max(0, canvas.getBoundingClientRect().top + window.scrollY);
+    viewH = Math.min(h, (window.innerHeight || h) - top);
     renderer.setSize(w, h, false);
     camera.aspect = w / h;
     const portrait = camera.aspect < 1;
