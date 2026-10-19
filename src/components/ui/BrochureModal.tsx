@@ -93,13 +93,14 @@ export function BrochureModal({ url, filename, onClose }: { url: string; filenam
               </div>
               <div className="field">
                 <label htmlFor="bm-phone">Phone</label>
-                <input id="bm-phone" type="tel" placeholder="+91XXXXXXXXXX" value={phone} onChange={(e) => setPhone(e.target.value)} autoComplete="tel" />
+                <input id="bm-phone" type="tel" placeholder="+91XXXXXXXXXX" required value={phone} onChange={(e) => setPhone(e.target.value)} autoComplete="tel" />
               </div>
               <div className="field">
                 <label htmlFor="bm-school">School</label>
                 <input
                   id="bm-school"
                   type="text"
+                  required
                   placeholder="Delhi Public School"
                   value={school}
                   onChange={(e) => setSchool(e.target.value)}
