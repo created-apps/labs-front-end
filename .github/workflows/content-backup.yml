@@ -1,0 +1,26 @@
+# Weekly export of all CMS content and images, kept for 90 days as a downloadable artifact.
+# Needs repository secrets: SANITY_PROJECT_ID and SANITY_AUTH_TOKEN (a Viewer token).
+name: Content backup
+on:
+  schedule:
+    - cron: "0 2 * * 1"
+  workflow_dispatch:
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npx sanity dataset export production backup.tar.gz
+        env:
+          SANITY_AUTH_TOKEN: ${{ secrets.SANITY_AUTH_TOKEN }}
+          NEXT_PUBLIC_SANITY_PROJECT_ID: ${{ secrets.SANITY_PROJECT_ID }}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: sanity-backup-${{ github.run_id }}
+          path: backup.tar.gz
+          retention-days: 90
